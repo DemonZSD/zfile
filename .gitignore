@@ -35,3 +35,5 @@ build/
 /mvnw
 /mvnw.cmd
 /.script/
+/hs_err_pid140956.log
+/replay_pid140956.log
