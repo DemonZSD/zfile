@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -67,6 +68,7 @@ public class PasswordConfigService {
     
         passwordConfigList.forEach(passwordConfig -> {
             passwordConfig.setStorageId(storageId);
+            passwordConfig.setPassword(DigestUtils.md5DigestAsHex(passwordConfig.getPassword().getBytes()));
             passwordConfigMapper.insert(passwordConfig);
             
             if (log.isDebugEnabled()) {
@@ -108,7 +110,8 @@ public class PasswordConfigService {
      */
     public VerifyResultDTO verifyPassword(Integer storageId, String path, String inputPassword) {
         List<PasswordConfig> passwordConfigList = passwordConfigService.findByStorageId(storageId);
-    
+        // 密码进行加密
+        inputPassword = DigestUtils.md5DigestAsHex((inputPassword).getBytes());
         // 如果规则列表为空, 则表示不需要过滤, 直接返回 false
         if (CollUtil.isEmpty(passwordConfigList)) {
             if (log.isDebugEnabled()) {
