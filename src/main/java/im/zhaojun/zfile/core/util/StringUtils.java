@@ -1,5 +1,6 @@
 package im.zhaojun.zfile.core.util;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.net.URLEncodeUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
@@ -399,4 +400,43 @@ public class StringUtils {
         return StrUtil.trim(removeResult);
     }
 
+    public static String addDatePathAtLast(String parentPath){
+        return concat(true, parentPath, nowDate2Path());
+    }
+
+    /**
+     * 将当前日，转换为日期目录：例如 2023-12-01 -> 2023/12/01
+     * @return 日期目录
+     */
+    public static String nowDate2Path(){
+        return StrUtil.replace(DateUtil.today(),"-",ZFileConstant.PATH_SEPARATOR);
+    }
+
+    /**
+     * 在目录后面追加日期目录
+     * @param pathAndName
+     *        路径和文件名称  /a/b/c/d
+     * @return 目录后面追加日期目录+文件名称，例如  /a/b/c/d -> /a/b/c/d/2023/12/01
+     */
+    public static String insertDatePathBetweenPathAndName(String pathAndName){
+        return concat(getParentPath(pathAndName), nowDate2Path(), getFileName(pathAndName));
+    }
+
+    /**
+     * 获取路径文件名的文件名，例如  /a/b/c/d/123456.jpg -> 123456.jpg
+     * @param pathAndName
+     *        路径文件名
+     * @return 文件名
+     */
+    public static String getFileName(String pathAndName){
+        int lastSplitSymbol = StrUtil.lastIndexOfIgnoreCase(pathAndName,ZFileConstant.PATH_SEPARATOR);
+        return StrUtil.sub(pathAndName, lastSplitSymbol, pathAndName.length());
+    }
+
+    public static void main(String[] args) {
+        String pathAndName = "a/b/c/d/123456.jpg";
+        System.out.println(getParentPath(pathAndName));
+        System.out.println(StringUtils.insertDatePathBetweenPathAndName(pathAndName));
+    }
 }
+
