@@ -164,6 +164,12 @@ public class WebdavServiceImpl extends AbstractProxyTransferService<WebdavParam>
 		}
 	}
 
+	@Override
+	public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+		// TODO 暂时为false
+		uploadFile(pathAndName, inputStream);
+	}
+
 	private FileItemResult davResourceToFileItem(DavResource davResource, String folderPath) {
 		FileItemResult fileItemResult = new FileItemResult();
 		fileItemResult.setName(davResource.getName());

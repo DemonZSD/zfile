@@ -162,6 +162,12 @@ public class SftpServiceImpl extends AbstractProxyTransferService<SftpParam> {
 		sftp.upload(folderName, fileName, inputStream);
 	}
 
+	@Override
+	public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+		// TODO 暂时为false
+		uploadFile(pathAndName, inputStream);
+	}
+
 
 	public FileItemResult sftpEntryToFileItem(ChannelSftp.LsEntry sftpEntry, String folderPath) {
 		FileItemResult fileItemResult = new FileItemResult();

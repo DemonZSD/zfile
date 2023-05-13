@@ -1,7 +1,9 @@
 package im.zhaojun.zfile.module.storage.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -29,10 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
@@ -121,7 +120,13 @@ public class LocalServiceImpl extends AbstractProxyTransferService<LocalParam> {
         checkNameSecurity(name);
         
         String fullPath = StringUtils.concat(param.getFilePath(), path, name);
-        return FileUtil.del(fullPath);
+        try {
+            return FileUtil.del(fullPath);
+        }catch (IORuntimeException e){
+            log.error("删除文件失败：", e);
+            return false;
+        }
+
     }
 
 
@@ -189,8 +194,17 @@ public class LocalServiceImpl extends AbstractProxyTransferService<LocalParam> {
         File uploadToFileObj = new File(uploadPath);
         BufferedOutputStream outputStream = FileUtil.getOutputStream(uploadToFileObj);
         IoUtil.copy(inputStream, outputStream);
+        IoUtil.close(outputStream);
+        IoUtil.close(inputStream);
     }
+    @Override
+    public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate){
+        if(createWithDate){
+            pathAndName = StringUtils.insertDatePathBetweenPathAndName(pathAndName);
+        }
+        uploadFile(pathAndName, inputStream);
 
+    }
 
     @Override
     public ResponseEntity<Resource> downloadToStream(String pathAndName) {

@@ -272,7 +272,12 @@ public class GoogleDriveServiceImpl extends AbstractProxyTransferService<GoogleD
 			throw ExceptionUtil.wrapRuntime(e);
 		}
 	}
-	
+
+	@Override
+	public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+
+	}
+
 	@Override
 	public ResponseEntity<Resource> downloadToStream(String pathAndName) {
 		String fileId = getIdByPath(pathAndName);

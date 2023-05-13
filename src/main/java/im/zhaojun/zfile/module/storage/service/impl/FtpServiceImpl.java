@@ -183,6 +183,12 @@ public class FtpServiceImpl extends AbstractProxyTransferService<FtpParam> {
         ftp.upload(folderName, fileName, inputStream);
     }
 
+    @Override
+    public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+        // TODO 暂时为false
+        uploadFile(pathAndName, inputStream);
+    }
+
 
     private FileItemResult ftpFileToFileItem(FTPFile ftpFile, String folderPath) {
         FileItemResult fileItemResult = new FileItemResult();
