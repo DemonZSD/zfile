@@ -58,7 +58,7 @@ public class ProxyUploadController {
 
 		// 进行上传.
 		AbstractProxyTransferService<?> proxyUploadService = (AbstractProxyTransferService<?>) storageServiceByKey;
-		proxyUploadService.uploadFile(filePath, file.getInputStream());
+		proxyUploadService.uploadFile(filePath, file.getInputStream(), true);
 		return AjaxJson.getSuccess();
 	}
 

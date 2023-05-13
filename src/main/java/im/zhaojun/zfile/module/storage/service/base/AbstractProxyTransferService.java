@@ -99,6 +99,20 @@ public abstract class AbstractProxyTransferService<P extends ProxyTransferParam>
 	 */
 	public abstract void uploadFile(String pathAndName, InputStream inputStream);
 
+	/**
+	 * 上传文件
+	 *
+	 * @param   pathAndName
+	 *          文件上传路径
+	 *
+	 * @param   inputStream
+	 *          文件流
+	 *
+	 * @param   createWithDate
+	 *          创建文件路径是否包含日期 Default false
+	 */
+	public abstract void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate);
+
 
 	/**
 	 * 代理下载指定文件
