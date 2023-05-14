@@ -10,6 +10,7 @@ import im.zhaojun.zfile.core.exception.file.operator.DisableProxyDownloadExcepti
 import im.zhaojun.zfile.core.util.CodeMsg;
 import im.zhaojun.zfile.core.util.RequestHolder;
 import im.zhaojun.zfile.core.util.StringUtils;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.enums.FileTypeEnum;
 import im.zhaojun.zfile.module.storage.model.enums.StorageTypeEnum;
 import im.zhaojun.zfile.module.storage.model.param.FtpParam;
@@ -176,17 +177,18 @@ public class FtpServiceImpl extends AbstractProxyTransferService<FtpParam> {
 
 
     @Override
-    public synchronized void uploadFile(String pathAndName, InputStream inputStream) {
+    public synchronized FileInfo uploadFile(String pathAndName, InputStream inputStream) {
         String fullPath = StringUtils.concat(param.getBasePath(), pathAndName);
         String fileName = FileUtil.getName(pathAndName);
         String folderName = FileUtil.getParent(fullPath, 1);
         ftp.upload(folderName, fileName, inputStream);
+        return null;
     }
 
     @Override
-    public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+    public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
         // TODO 暂时为false
-        uploadFile(pathAndName, inputStream);
+        return uploadFile(pathAndName, inputStream);
     }
 
 

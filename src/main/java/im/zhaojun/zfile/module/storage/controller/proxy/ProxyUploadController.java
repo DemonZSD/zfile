@@ -2,6 +2,7 @@ package im.zhaojun.zfile.module.storage.controller.proxy;
 
 import im.zhaojun.zfile.module.storage.context.StorageSourceContext;
 import im.zhaojun.zfile.core.util.AjaxJson;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.service.base.AbstractBaseFileService;
 import im.zhaojun.zfile.module.storage.service.base.AbstractProxyTransferService;
 import io.swagger.annotations.Api;
@@ -55,11 +56,10 @@ public class ProxyUploadController {
 			return AjaxJson.getError("存储类型异常，不支持上传.");
 		}
 
-
 		// 进行上传.
 		AbstractProxyTransferService<?> proxyUploadService = (AbstractProxyTransferService<?>) storageServiceByKey;
-		proxyUploadService.uploadFile(filePath, file.getInputStream(), true);
-		return AjaxJson.getSuccess();
+		FileInfo fileInfo = proxyUploadService.uploadFile(filePath, file.getInputStream(), false);
+		return AjaxJson.getSuccess("上传成功", fileInfo);
 	}
 
 }

@@ -419,6 +419,13 @@ public class StringUtils {
      * @return 目录后面追加日期目录+文件名称，例如  /a/b/c/d -> /a/b/c/d/2023/12/01
      */
     public static String insertDatePathBetweenPathAndName(String pathAndName){
+        String parentPath = getParentPath(pathAndName);
+        String datePath = nowDate2Path();
+        //避免 在 日期文件夹内部创建，重复创建日期文件夹
+        // 比如 在 2023/12/01 下创建 相同的日期目录，则没必要
+        if(parentPath.endsWith(datePath)){
+            return pathAndName;
+        }
         return concat(getParentPath(pathAndName), nowDate2Path(), getFileName(pathAndName));
     }
 

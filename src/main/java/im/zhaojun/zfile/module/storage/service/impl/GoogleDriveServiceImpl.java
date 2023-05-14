@@ -19,6 +19,7 @@ import im.zhaojun.zfile.core.util.StringUtils;
 import im.zhaojun.zfile.module.storage.constant.StorageConfigConstant;
 import im.zhaojun.zfile.module.storage.model.bo.RefreshTokenCacheBO;
 import im.zhaojun.zfile.module.storage.model.dto.OAuth2TokenDTO;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.entity.StorageSourceConfig;
 import im.zhaojun.zfile.module.storage.model.enums.FileTypeEnum;
 import im.zhaojun.zfile.module.storage.model.enums.StorageTypeEnum;
@@ -244,7 +245,7 @@ public class GoogleDriveServiceImpl extends AbstractProxyTransferService<GoogleD
 	}
 	
 	@Override
-	public void uploadFile(String pathAndName, InputStream inputStream) {
+	public FileInfo uploadFile(String pathAndName, InputStream inputStream) {
 		String boundary = IdUtil.fastSimpleUUID();
 		String fileName = FileUtil.getName(pathAndName);
 		String folderName = StringUtils.getParentPath(pathAndName);
@@ -268,14 +269,16 @@ public class GoogleDriveServiceImpl extends AbstractProxyTransferService<GoogleD
 			
 			CloseableHttpResponse response = httpClient.execute(httpUriRequest);
 			checkHttpResponseIsError(response);
+
+			return null;
 		} catch (IOException e) {
 			throw ExceptionUtil.wrapRuntime(e);
 		}
 	}
 
 	@Override
-	public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
-
+	public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+		return uploadFile(pathAndName, inputStream);
 	}
 
 	@Override

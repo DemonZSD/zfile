@@ -13,11 +13,14 @@ import im.zhaojun.zfile.module.config.service.SystemConfigService;
 import im.zhaojun.zfile.module.storage.annotation.StorageParamItem;
 import im.zhaojun.zfile.module.storage.annotation.StorageParamSelect;
 import im.zhaojun.zfile.module.storage.annotation.StorageParamSelectOption;
+import im.zhaojun.zfile.module.storage.mapper.FileInfoMapper;
 import im.zhaojun.zfile.module.storage.model.bo.StorageSourceParamDef;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.enums.StorageParamTypeEnum;
 import im.zhaojun.zfile.module.storage.model.param.IStorageParam;
 import im.zhaojun.zfile.module.storage.model.result.FileItemResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
@@ -36,6 +39,8 @@ public abstract class AbstractBaseFileService<P extends IStorageParam> implement
 	@Resource
 	private SystemConfigService systemConfigService;
 
+	@Resource
+	protected FileInfoMapper fileInfoMapper;
 	/**
 	 * 存储源初始化配置
 	 */
@@ -55,6 +60,11 @@ public abstract class AbstractBaseFileService<P extends IStorageParam> implement
 	 * 存储源名称
 	 */
 	private String name;
+
+	/**
+	 * 存储源KEY
+	 */
+	public String storageKey;
 
 	/**
 	 * 初始化存储源, 在调用前要设置存储的 {@link #storageId} 属性. 和 {@link #param} 属性.
@@ -238,6 +248,13 @@ public abstract class AbstractBaseFileService<P extends IStorageParam> implement
 		this.param = param;
 	}
 
+	public void setStorageKey(String storageKey) {
+		if (this.param != null) {
+			throw new IllegalStateException("请勿重复初始化存储源");
+		}
+		this.storageKey = storageKey;
+	}
+
 	/**
 	 * 获取是否初始化成功
 	 *
@@ -257,6 +274,15 @@ public abstract class AbstractBaseFileService<P extends IStorageParam> implement
 		return isInitialized;
 	}
 
+	/**
+	 * 根据FileID 从 数据库查询file路径
+	 * @param fileId 文件ID
+	 * @return 文件URL
+	 */
+	public String getFilePathByFileId(String fileId){
+		FileInfo fileInfo = fileInfoMapper.getFileInfoById(fileId);
+		return fileInfo.getFileUrl();
+	}
 
 	public P getParam() {
 		return param;
@@ -265,9 +291,14 @@ public abstract class AbstractBaseFileService<P extends IStorageParam> implement
 	public Integer getStorageId() {
 		return storageId;
 	}
-	
-	
+
+	public String getStorageKey() {
+		return storageKey;
+	}
+
 	String getStorageSimpleInfo() {
 		return StrUtil.format("存储源 [id={}, name={}, type: {}]", storageId, name, getStorageTypeEnum().getDescription());
 	}
+
+
 }

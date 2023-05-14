@@ -1,6 +1,7 @@
 package im.zhaojun.zfile.module.storage.service.base;
 
 import cn.hutool.core.util.StrUtil;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.param.ProxyTransferParam;
 import im.zhaojun.zfile.module.storage.service.StorageSourceService;
 import im.zhaojun.zfile.module.config.service.SystemConfigService;
@@ -97,7 +98,7 @@ public abstract class AbstractProxyTransferService<P extends ProxyTransferParam>
 	 *          文件流
 	 *
 	 */
-	public abstract void uploadFile(String pathAndName, InputStream inputStream);
+	public abstract FileInfo uploadFile(String pathAndName, InputStream inputStream);
 
 	/**
 	 * 上传文件
@@ -111,7 +112,7 @@ public abstract class AbstractProxyTransferService<P extends ProxyTransferParam>
 	 * @param   createWithDate
 	 *          创建文件路径是否包含日期 Default false
 	 */
-	public abstract void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate);
+	public abstract FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate);
 
 
 	/**

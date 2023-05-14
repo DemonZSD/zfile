@@ -1,5 +1,6 @@
 package im.zhaojun.zfile.module.storage.service.base;
 
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.param.ProxyDownloadParam;
 
 import java.io.InputStream;
@@ -15,7 +16,8 @@ public abstract class AbstractProxyDownloadService<P extends ProxyDownloadParam>
 	 * 空实现.
 	 */
 	@Override
-	public void uploadFile(String pathAndName, InputStream inputStream) {
+	public FileInfo uploadFile(String pathAndName, InputStream inputStream) {
+		return null;
 	}
 
 }

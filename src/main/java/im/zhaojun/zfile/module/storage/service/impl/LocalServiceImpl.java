@@ -1,10 +1,10 @@
 package im.zhaojun.zfile.module.storage.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import im.zhaojun.zfile.core.constant.ZFileConstant;
@@ -12,6 +12,7 @@ import im.zhaojun.zfile.core.exception.file.init.InitializeStorageSourceExceptio
 import im.zhaojun.zfile.core.util.CodeMsg;
 import im.zhaojun.zfile.core.util.RequestHolder;
 import im.zhaojun.zfile.core.util.StringUtils;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.enums.FileTypeEnum;
 import im.zhaojun.zfile.module.storage.model.enums.StorageTypeEnum;
 import im.zhaojun.zfile.module.storage.model.param.LocalParam;
@@ -23,15 +24,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
@@ -180,7 +180,7 @@ public class LocalServiceImpl extends AbstractProxyTransferService<LocalParam> {
 
 
     @Override
-    public void uploadFile(String pathAndName, InputStream inputStream) {
+    public FileInfo uploadFile(String pathAndName, InputStream inputStream) {
         checkPathSecurity(pathAndName);
         
         String baseFilePath = param.getFilePath();
@@ -196,14 +196,18 @@ public class LocalServiceImpl extends AbstractProxyTransferService<LocalParam> {
         IoUtil.copy(inputStream, outputStream);
         IoUtil.close(outputStream);
         IoUtil.close(inputStream);
+        // 上传成功，记录FileInfo
+        System.out.println(param.toString());
+        FileInfo fileInfo = new FileInfo(storageKey, IdUtil.getSnowflakeNextIdStr(), pathAndName,0);
+        fileInfoMapper.insert(fileInfo);
+        return fileInfo;
     }
     @Override
-    public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate){
+    public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate){
         if(createWithDate){
             pathAndName = StringUtils.insertDatePathBetweenPathAndName(pathAndName);
         }
-        uploadFile(pathAndName, inputStream);
-
+        return uploadFile(pathAndName, inputStream);
     }
 
     @Override

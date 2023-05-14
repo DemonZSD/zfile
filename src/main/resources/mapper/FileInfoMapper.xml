@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="im.zhaojun.zfile.module.storage.mapper.FileInfoMapper">
+    <resultMap id="BaseResultMap" type="im.zhaojun.zfile.module.storage.model.entity.FileInfo">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="file_id" jdbcType="VARCHAR" property="fileId" />
+        <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
+        <result column="storage_key" jdbcType="VARCHAR" property="storageKey" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        `id`, `file_id`, `file_url`, `storage_key`, `version`, `create_time`, `update_time`
+    </sql>
+
+    <select id="getFileInfoById" resultType="im.zhaojun.zfile.module.storage.model.entity.FileInfo">
+        select id, file_id, file_url, storage_key,version,create_time, update_time from tbl_file_info
+        <where>
+            <if test="fileId != null and fileId != ''">
+                file_id &lt;= #{fileId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -5,6 +5,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.module.storage.context.StorageSourceContext;
 import im.zhaojun.zfile.core.exception.StorageSourceNotSupportProxyUploadException;
 import im.zhaojun.zfile.core.util.ProxyDownloadUrlUtils;
+import im.zhaojun.zfile.module.storage.model.request.DownloadFileRequest;
 import im.zhaojun.zfile.module.storage.service.base.AbstractBaseFileService;
 import im.zhaojun.zfile.module.storage.service.base.AbstractProxyTransferService;
 import io.swagger.annotations.Api;
@@ -14,9 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.annotation.Resource;
@@ -82,4 +81,35 @@ public class ProxyDownloadController {
         return proxyDownloadService.downloadToStream(filePath);
     }
 
+    @PostMapping("/pd/{storageKey}")
+    @ApiOperationSupport(order = 2)
+    @ApiOperation(value = "根据文件ID下载文件", notes = "因第三方存储源都有下载地址，本接口提供本地存储的下载地址的处理, 返回文件流进行下载.")
+    @ResponseBody
+    public ResponseEntity<org.springframework.core.io.Resource> downFileById(
+            @PathVariable("storageKey") String storageKey, @RequestBody DownloadFileRequest downloadFileRequest) throws IOException {
+        // 获取下载文件路径
+        String path = (String) httpServletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+
+        AbstractBaseFileService<?> storageServiceByKey = storageSourceContext.getByStorageKey(storageKey);
+
+        // 如果不是 ProxyTransferService, 则返回错误信息.
+        if (!Beans.isInstanceOf(storageServiceByKey, AbstractProxyTransferService.class)) {
+            throw new StorageSourceNotSupportProxyUploadException("存储类型异常，不支持上传.");
+        }
+
+        // 进行上传.
+        AbstractProxyTransferService<?> proxyDownloadService = (AbstractProxyTransferService<?>) storageServiceByKey;
+        // filePath 从数据库查询
+        String filePath = proxyDownloadService.getFilePathByFileId(downloadFileRequest.getFileUrl());
+        // 如果是私有空间才校验签名.
+        boolean privateStorage = proxyDownloadService.getParam().isPrivate();
+        if (privateStorage) {
+            Integer storageId = proxyDownloadService.getStorageId();
+            boolean valid = ProxyDownloadUrlUtils.validSignatureExpired(storageId, filePath, downloadFileRequest.getSignature());
+            if (!valid) {
+                throw new IllegalArgumentException("签名无效或下载地址已过期.");
+            }
+        }
+        return proxyDownloadService.downloadToStream(filePath);
+    }
 }

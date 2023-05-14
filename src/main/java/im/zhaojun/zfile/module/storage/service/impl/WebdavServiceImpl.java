@@ -10,6 +10,7 @@ import com.github.sardine.SardineFactory;
 import im.zhaojun.zfile.core.constant.ZFileConstant;
 import im.zhaojun.zfile.core.util.RequestHolder;
 import im.zhaojun.zfile.core.util.StringUtils;
+import im.zhaojun.zfile.module.storage.model.entity.FileInfo;
 import im.zhaojun.zfile.module.storage.model.enums.FileTypeEnum;
 import im.zhaojun.zfile.module.storage.model.enums.StorageTypeEnum;
 import im.zhaojun.zfile.module.storage.model.param.WebdavParam;
@@ -155,19 +156,20 @@ public class WebdavServiceImpl extends AbstractProxyTransferService<WebdavParam>
 	}
 
 	@Override
-	public void uploadFile(String pathAndName, InputStream inputStream) {
+	public FileInfo uploadFile(String pathAndName, InputStream inputStream) {
 		try {
 			pathAndName = getRequestPath(pathAndName);
 			sardine.put(pathAndName, inputStream);
+			return null;
 		} catch (IOException e) {
 			throw ExceptionUtil.wrapRuntime(e);
 		}
 	}
 
 	@Override
-	public void uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
+	public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
 		// TODO 暂时为false
-		uploadFile(pathAndName, inputStream);
+		return uploadFile(pathAndName, inputStream);
 	}
 
 	private FileItemResult davResourceToFileItem(DavResource davResource, String folderPath) {

@@ -158,6 +158,7 @@ public class StorageSourceContext implements ApplicationContextAware {
     public void init(StorageSource storageSource) {
         Integer storageId = storageSource.getId();
         String storageName = storageSource.getName();
+        String storageKey = storageSource.getKey();
         
         AbstractBaseFileService<IStorageParam> baseFileService = getInitStorageBeanByStorageId(storageId);
         if (baseFileService == null) {
@@ -167,6 +168,7 @@ public class StorageSourceContext implements ApplicationContextAware {
         // 填充初始化参数
         baseFileService.setStorageId(storageId);
         baseFileService.setName(storageName);
+        baseFileService.setStorageKey(storageKey);
         IStorageParam initParam = getInitParam(storageId, baseFileService);
         baseFileService.setParam(initParam);
         
