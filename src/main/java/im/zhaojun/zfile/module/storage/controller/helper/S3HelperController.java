@@ -7,7 +7,6 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.Bucket;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import im.zhaojun.zfile.core.util.AjaxJson;
 import im.zhaojun.zfile.module.storage.model.request.GetS3BucketListRequest;
 import im.zhaojun.zfile.module.storage.model.result.S3BucketNameResult;
@@ -35,7 +34,6 @@ public class S3HelperController {
 
 	@PostMapping("/getBuckets")
 	@ResponseBody
-	@ApiOperationSupport(order = 1)
 	@ApiOperation(value = "获取 S3 存储器列表")
 	public AjaxJson<List<S3BucketNameResult>> getBucketNames(@Valid @RequestBody GetS3BucketListRequest getS3BucketListRequest) {
 		List<S3BucketNameResult> bucketNameList = new ArrayList<>();

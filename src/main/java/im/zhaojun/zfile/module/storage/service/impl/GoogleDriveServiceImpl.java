@@ -277,6 +277,11 @@ public class GoogleDriveServiceImpl extends AbstractProxyTransferService<GoogleD
 	}
 
 	@Override
+	public FileInfo uploadFile(String pathAndName, String uuid, InputStream inputStream) {
+		return null;
+	}
+
+	@Override
 	public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
 		return uploadFile(pathAndName, inputStream);
 	}

@@ -3,7 +3,6 @@ package im.zhaojun.zfile.module.storage.controller.callback;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import im.zhaojun.zfile.module.storage.model.dto.OAuth2TokenDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +48,6 @@ public class GoogleDriveCallbackController {
 	private String scope;
 	
 	@GetMapping("/authorize")
-	@ApiOperationSupport(order = 1)
 	@ApiOperation(value = "生成 OAuth2 登陆 URL", notes = "生成 OneDrive OAuth2 登陆 URL，用户国际版，家庭版等非世纪互联运营的 OneDrive.")
 	public String authorize(String clientId, String clientSecret, String redirectUri) {
 		log.info("gd 生成授权链接参数信息： clientId: {}, clientSecret: {}, redirectUri: {}", clientId, clientSecret, redirectUri);

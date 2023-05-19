@@ -2,7 +2,6 @@ package im.zhaojun.zfile.module.storage.controller.callback;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import im.zhaojun.zfile.module.storage.model.dto.OAuth2TokenDTO;
 import im.zhaojun.zfile.module.storage.service.impl.OneDriveChinaServiceImpl;
 import im.zhaojun.zfile.module.storage.service.impl.OneDriveServiceImpl;
@@ -35,7 +34,6 @@ public class OneDriveCallbackController {
     
     
     @GetMapping("/authorize")
-    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "生成 OAuth2 登陆 URL", notes = "生成 OneDrive OAuth2 登陆 URL，用户国际版，家庭版等非世纪互联运营的 OneDrive.")
     public String authorize(String clientId, String clientSecret, String redirectUri) {
         log.info("onedrive 国际版生成授权链接参数信息： clientId: {}, clientSecret: {}, redirectUri: {}", clientId, clientSecret, redirectUri);
@@ -61,7 +59,6 @@ public class OneDriveCallbackController {
     
     
     @GetMapping("/callback")
-    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "OAuth2 回调地址", notes = "根据 OAuth2 协议，登录成功后，会返回给网站一个 code，用此 code 去换取 accessToken 和 refreshToken.（oneDrive 会回调此接口）")
     public String oneDriveCallback(String code, String state, Model model) {
         log.info("onedrive 国际版授权回调参数信息： code: {}, state: {}", code, state);
@@ -90,7 +87,6 @@ public class OneDriveCallbackController {
     
     
     @GetMapping("/china-authorize")
-    @ApiOperationSupport(order = 3)
     @ApiOperation(value = "生成 OAuth2 登陆 URL(世纪互联)", notes = "生成 OneDrive OAuth2 登陆 URL，用于世纪互联版本.")
     public String authorizeChina(String clientId, String clientSecret, String redirectUri) {
         log.info("onedrive 世纪互联版生成授权链接参数信息： clientId: {}, clientSecret: {}, redirectUri: {}", clientId, clientSecret, redirectUri);
@@ -116,7 +112,6 @@ public class OneDriveCallbackController {
     
     
     @GetMapping("/china-callback")
-    @ApiOperationSupport(order = 4)
     @ApiOperation(value = "OAuth2 回调地址(世纪互联)", notes = "根据 OAuth2 协议，登录成功后，会返回给网站一个 code，用此 code 去换取 accessToken 和 refreshToken.（oneDrive 会回调此接口）")
     public String oneDriveChinaCallback(String code, String state, Model model) {
         log.info("onedrive 世纪互联版授权回调参数信息： code: {}, state: {}", code, state);

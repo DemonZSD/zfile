@@ -2,7 +2,6 @@ package im.zhaojun.zfile.core.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ZipUtil;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.core.util.FileResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,6 @@ import java.util.Date;
  * @author zhaojun
  */
 @Api(tags = "日志")
-@ApiSort(8)
 @Slf4j
 @RestController
 @RequestMapping("/admin")

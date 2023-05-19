@@ -27,6 +27,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.RetryCallback;
+import org.springframework.retry.RetryContext;
+import org.springframework.retry.RetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -445,7 +447,7 @@ public abstract class AbstractMicrosoftDriveService<P extends MicrosoftDrivePara
         HttpHeaders headers = new HttpHeaders();
         StorageSourceConfig accessTokenConfig =
                 storageSourceConfigService.findByStorageIdAndName(storageId, StorageConfigConstant.ACCESS_TOKEN_KEY);
-        headers.setBearerAuth(accessTokenConfig.getValue());
+//        headers.setBearerAuth(accessTokenConfig.getValue());
         return new HttpEntity<>(body, headers);
     }
     
@@ -458,8 +460,9 @@ public abstract class AbstractMicrosoftDriveService<P extends MicrosoftDrivePara
      * @param                   <T> 任务执行结果类型
      */
     private <T> T executeRetryableRequest(RetryCallback<T, Throwable> retryCallback) {
-        RetryTemplate retryTemplate = RetryTemplate.builder().maxAttempts(2).retryOn(HttpClientErrorException.class).build();
-    
+//        RetryTemplate retryTemplate = RetryTemplate.builder().maxAttempts(2).retryOn(HttpClientErrorException.class).build();
+        RetryTemplate retryTemplate = new RetryTemplate();
+
         T result;
         try {
             result = retryTemplate.execute(retryCallback);

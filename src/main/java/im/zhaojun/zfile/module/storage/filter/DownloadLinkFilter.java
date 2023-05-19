@@ -18,11 +18,7 @@ import im.zhaojun.zfile.module.config.model.dto.SystemConfigDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +46,11 @@ public class DownloadLinkFilter implements Filter {
 	private ShortLinkService shortLinkService;
 
 	private FilterConfigService filterConfigService;
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+
+	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -122,6 +123,11 @@ public class DownloadLinkFilter implements Filter {
 		}
 
 		chain.doFilter(httpServletRequest, httpServletResponse);
+	}
+
+	@Override
+	public void destroy() {
+
 	}
 
 

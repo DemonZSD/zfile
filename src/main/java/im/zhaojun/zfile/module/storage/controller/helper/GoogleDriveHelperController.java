@@ -6,7 +6,6 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import im.zhaojun.zfile.module.storage.model.request.GetGoogleDriveListRequest;
 import im.zhaojun.zfile.module.storage.model.result.GoogleDriveInfoResult;
 import im.zhaojun.zfile.core.util.AjaxJson;
@@ -32,7 +31,6 @@ public class GoogleDriveHelperController {
 	
 	@PostMapping("/drives")
 	@ResponseBody
-	@ApiOperationSupport(order = 1)
 	@ApiOperation(value = "获取 gd drives 列表")
 	public AjaxJson<List<GoogleDriveInfoResult>> getDrives(@Valid @RequestBody GetGoogleDriveListRequest googleDriveListRequest) {
 		List<GoogleDriveInfoResult> bucketNameList = new ArrayList<>();

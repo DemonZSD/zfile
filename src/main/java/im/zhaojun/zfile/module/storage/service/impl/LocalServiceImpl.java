@@ -4,6 +4,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.generator.UUIDGenerator;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -181,8 +182,15 @@ public class LocalServiceImpl extends AbstractProxyTransferService<LocalParam> {
 
     @Override
     public FileInfo uploadFile(String pathAndName, InputStream inputStream) {
+//        String uuid = UUIDGenerator.getIns
+        return null;
+    }
+
+    @Override
+    public FileInfo uploadFile(String pathAndName, String uuid, InputStream inputStream) {
+
         checkPathSecurity(pathAndName);
-        
+
         String baseFilePath = param.getFilePath();
         String uploadPath = StringUtils.removeDuplicateSlashes(baseFilePath + ZFileConstant.PATH_SEPARATOR + pathAndName);
         // 如果目录不存在则创建
@@ -198,10 +206,12 @@ public class LocalServiceImpl extends AbstractProxyTransferService<LocalParam> {
         IoUtil.close(inputStream);
         // 上传成功，记录FileInfo
         System.out.println(param.toString());
-        FileInfo fileInfo = new FileInfo(storageKey, IdUtil.getSnowflakeNextIdStr(), pathAndName,0);
+        FileInfo fileInfo = new FileInfo(storageKey, uuid, pathAndName,0);
         fileInfoMapper.insert(fileInfo);
-        return fileInfo;
+
+        return null;
     }
+
     @Override
     public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate){
         if(createWithDate){

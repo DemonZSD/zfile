@@ -6,7 +6,6 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import im.zhaojun.zfile.module.storage.model.request.SharePointSearchSitesRequest;
 import im.zhaojun.zfile.module.storage.model.request.SharePointSiteListsRequest;
 import im.zhaojun.zfile.module.storage.model.result.SharepointSiteResult;
@@ -46,7 +45,6 @@ public class SharePointHelperController {
 
     @PostMapping("/getSites")
     @ResponseBody
-    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "获取网站列表")
     public AjaxJson<List<SharepointSiteResult>> getSites(@Valid @RequestBody SharePointSearchSitesRequest searchSitesRequest) {
         List<SharepointSiteResult> sites = new ArrayList<>();
@@ -81,7 +79,6 @@ public class SharePointHelperController {
 
     @PostMapping("/getSiteLists")
     @ResponseBody
-    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "获取网站下的子目录")
     public AjaxJson<List<SharepointSiteListResult>> getSites(@Valid @RequestBody SharePointSiteListsRequest sharePointSiteListsRequest) {
         List<SharepointSiteListResult> sites = new ArrayList<>();
@@ -130,7 +127,6 @@ public class SharePointHelperController {
 
 
     @PostMapping("/getDomainPrefix")
-    @ApiOperationSupport(order = 3)
     @ApiOperation(value = "获取域名前缀")
     @ResponseBody
     public AjaxJson<String> getDomainPrefix(@RequestBody SharePointInfoRequest sharePointInfoRequest) {
@@ -168,7 +164,6 @@ public class SharePointHelperController {
 
 
     @PostMapping("/getSiteId")
-    @ApiOperationSupport(order = 4)
     @ApiOperation(value = "获取 SiteId")
     @ResponseBody
     public AjaxJson<String> getSiteId(@RequestBody SharePointInfoRequest sharePointInfoRequest) {

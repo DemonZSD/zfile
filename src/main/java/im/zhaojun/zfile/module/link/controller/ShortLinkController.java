@@ -1,8 +1,6 @@
 package im.zhaojun.zfile.module.link.controller;
 
 import cn.hutool.core.util.BooleanUtil;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.core.exception.IllegalDownloadLinkException;
 import im.zhaojun.zfile.core.exception.InvalidShortLinkException;
 import im.zhaojun.zfile.core.util.AjaxJson;
@@ -21,12 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -40,7 +33,6 @@ import java.util.List;
  * @author zhaojun
  */
 @Api(tags = "直短链模块")
-@ApiSort(5)
 @Controller
 @Slf4j
 public class ShortLinkController {
@@ -56,7 +48,6 @@ public class ShortLinkController {
 
     @PostMapping("/api/short-link/batch/generate")
     @ResponseBody
-    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "生成短链", notes = "对指定存储源的某文件路径生成短链")
     public AjaxJson<List<BatchGenerateLinkResponse>> generatorShortLink(@RequestBody @Valid BatchGenerateLinkRequest batchGenerateLinkRequest) {
         List<BatchGenerateLinkResponse> result = new ArrayList<>();
@@ -96,7 +87,6 @@ public class ShortLinkController {
 
     @GetMapping("/s/{key}")
     @ResponseStatus(HttpStatus.FOUND)
-    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "跳转短链", notes = "根据短链 key 跳转（302 重定向）到对应的直链.")
     @ApiImplicitParam(paramType = "path", name = "key", value = "短链 key", required = true, dataTypeClass = String.class)
     public String parseShortKey(@PathVariable String key) throws IOException {

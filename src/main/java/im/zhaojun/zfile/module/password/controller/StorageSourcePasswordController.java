@@ -1,7 +1,5 @@
 package im.zhaojun.zfile.module.password.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.module.password.model.entity.PasswordConfig;
 import im.zhaojun.zfile.module.password.service.PasswordConfigService;
 import im.zhaojun.zfile.core.util.AjaxJson;
@@ -24,7 +22,6 @@ import java.util.List;
  * @author zhaojun
  */
 @Api(tags = "存储源模块-密码文件夹")
-@ApiSort(6)
 @RestController
 @RequestMapping("/admin")
 public class StorageSourcePasswordController {
@@ -32,7 +29,6 @@ public class StorageSourcePasswordController {
     @Resource
     private PasswordConfigService passwordConfigService;
 
-    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "获取存储源密码文件夹列表", notes = "根据存储源 ID 获取存储源设置的密码文件夹列表")
     @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class)
     @GetMapping("/storage/{storageId}/password")
@@ -41,7 +37,6 @@ public class StorageSourcePasswordController {
     }
 
 
-    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "保存存储源密码文件夹列表", notes = "保存指定存储源 ID 设置的密码文件夹列表")
     @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class)
     @PostMapping("/storage/{storageId}/password")

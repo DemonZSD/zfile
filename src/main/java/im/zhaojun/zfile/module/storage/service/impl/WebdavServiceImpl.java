@@ -167,6 +167,11 @@ public class WebdavServiceImpl extends AbstractProxyTransferService<WebdavParam>
 	}
 
 	@Override
+	public FileInfo uploadFile(String pathAndName, String uuid, InputStream inputStream) {
+		return null;
+	}
+
+	@Override
 	public FileInfo uploadFile(String pathAndName, InputStream inputStream, boolean createWithDate) {
 		// TODO 暂时为false
 		return uploadFile(pathAndName, inputStream);

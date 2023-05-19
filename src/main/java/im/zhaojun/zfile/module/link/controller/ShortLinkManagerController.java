@@ -6,8 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.core.util.AjaxJson;
 import im.zhaojun.zfile.module.link.convert.ShortLinkConvert;
 import im.zhaojun.zfile.module.link.model.entity.ShortLink;
@@ -22,13 +20,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -42,7 +34,6 @@ import java.util.stream.Stream;
  * @author zhaojun
  */
 @Api(tags = "直链管理")
-@ApiSort(7)
 @Controller
 @RequestMapping("/admin")
 public class ShortLinkManagerController {
@@ -59,7 +50,6 @@ public class ShortLinkManagerController {
     @Value("${spring.datasource.driver-class-name}")
     private String datasourceDriveClassName;
 
-    @ApiOperationSupport(order = 1)
     @GetMapping("/link/list")
     @ApiOperation(value = "搜索短链")
     @ResponseBody
@@ -109,7 +99,6 @@ public class ShortLinkManagerController {
     }
 
 
-    @ApiOperationSupport(order = 2)
     @DeleteMapping("/link/delete/{id}")
     @ApiOperation(value = "删除短链")
     @ApiImplicitParam(paramType = "path", name = "id", value = "短链 id", required = true, dataTypeClass = Integer.class)
@@ -120,7 +109,6 @@ public class ShortLinkManagerController {
     }
 
 
-    @ApiOperationSupport(order = 3)
     @PostMapping("/link/delete/batch")
     @ResponseBody
     @ApiOperation(value = "批量删除短链")

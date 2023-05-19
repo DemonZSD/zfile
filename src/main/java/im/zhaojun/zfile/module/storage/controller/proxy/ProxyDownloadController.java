@@ -1,7 +1,5 @@
 package im.zhaojun.zfile.module.storage.controller.proxy;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.module.storage.context.StorageSourceContext;
 import im.zhaojun.zfile.core.exception.StorageSourceNotSupportProxyUploadException;
 import im.zhaojun.zfile.core.util.ProxyDownloadUrlUtils;
@@ -29,7 +27,6 @@ import java.io.IOException;
  * @author zhaojun
  */
 @Api(tags = "服务端代理下载")
-@ApiSort(6)
 @Controller
 public class ProxyDownloadController {
 
@@ -41,7 +38,6 @@ public class ProxyDownloadController {
 
 
     @GetMapping("/pd/{storageKey}/**")
-    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "下载本地存储源的文件", notes = "因第三方存储源都有下载地址，本接口提供本地存储的下载地址的处理, 返回文件流进行下载.")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "storageKey", value = "存储源 key", dataTypeClass = String.class),
@@ -82,7 +78,6 @@ public class ProxyDownloadController {
     }
 
     @PostMapping("/pd/{storageKey}")
-    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "根据文件ID下载文件", notes = "因第三方存储源都有下载地址，本接口提供本地存储的下载地址的处理, 返回文件流进行下载.")
     @ResponseBody
     public ResponseEntity<org.springframework.core.io.Resource> downFileById(

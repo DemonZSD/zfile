@@ -2,8 +2,6 @@ package im.zhaojun.zfile.module.storage.controller.file;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.BooleanUtil;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.core.util.AjaxJson;
 import im.zhaojun.zfile.module.password.model.dto.VerifyResultDTO;
 import im.zhaojun.zfile.module.password.service.PasswordConfigService;
@@ -36,7 +34,6 @@ import java.util.Map;
  * @author zhaojun
  */
 @Api(tags = "文件操作模块")
-@ApiSort(3)
 @Slf4j
 @RestController
 @RequestMapping("/api/file/operator")
@@ -48,7 +45,6 @@ public class FileOperatorController {
 	@Resource
 	private PasswordConfigService passwordConfigService;
 
-	@ApiOperationSupport(order = 1)
 	@ApiOperation(value = "创建文件夹")
 	@PostMapping("/mkdir")
 	@CheckPassword(storageKeyFieldExpression = "[0].storageKey",
@@ -65,7 +61,6 @@ public class FileOperatorController {
 	}
 
 
-	@ApiOperationSupport(order = 2)
 	@ApiOperation(value = "批量删除文件/文件夹")
 	@PostMapping("/delete/batch")
 	public AjaxJson<?> deleteFile(@Valid @RequestBody BatchDeleteRequest batchDeleteRequest) {
@@ -127,7 +122,6 @@ public class FileOperatorController {
 	}
 
 
-	@ApiOperationSupport(order = 3)
 	@ApiOperation(value = "重命名文件")
 	@PostMapping("/rename/file")
 	@CheckPassword(storageKeyFieldExpression = "[0].storageKey",
@@ -144,7 +138,6 @@ public class FileOperatorController {
 	}
 
 
-	@ApiOperationSupport(order = 4)
 	@ApiOperation(value = "重命名文件夹")
 	@PostMapping("/rename/folder")
 	@CheckPassword(storageKeyFieldExpression = "[0].storageKey",
@@ -161,7 +154,6 @@ public class FileOperatorController {
 	}
 
 
-	@ApiOperationSupport(order = 5)
 	@ApiOperation(value = "上传文件")
 	@PostMapping("/upload/file")
 	@CheckPassword(storageKeyFieldExpression = "[0].storageKey",

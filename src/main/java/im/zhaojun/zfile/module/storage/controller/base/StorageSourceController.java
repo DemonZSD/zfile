@@ -1,7 +1,5 @@
 package im.zhaojun.zfile.module.storage.controller.base;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import im.zhaojun.zfile.module.storage.model.entity.StorageSource;
 import im.zhaojun.zfile.module.storage.model.request.base.SaveStorageSourceRequest;
 import im.zhaojun.zfile.module.storage.model.result.StorageSourceAdminResult;
@@ -32,7 +30,6 @@ import java.util.List;
  * @author zhaojun
  */
 @Api(tags = "存储源模块-基础")
-@ApiSort(3)
 @RestController
 @RequestMapping("/admin")
 public class StorageSourceController {
@@ -44,7 +41,6 @@ public class StorageSourceController {
     private StorageSourceConvert storageSourceConvert;
 
 
-    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "获取所有存储源列表", notes = "获取所有添加的存储源列表，按照排序值由小到大排序")
     @GetMapping("/storages")
     public AjaxJson<List<StorageSourceAdminResult>> storageList() {
@@ -61,7 +57,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "获取指定存储源参数", notes = "获取指定存储源基本信息及其参数")
     @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class)
     @GetMapping("/storage/{storageId}")
@@ -71,7 +66,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 3)
     @ApiOperation(value = "保存存储源参数", notes = "保存存储源的所有参数")
     @PostMapping("/storage")
     public AjaxJson<Integer> saveStorageItem(@RequestBody SaveStorageSourceRequest saveStorageSourceRequest) {
@@ -80,7 +74,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 4)
     @ApiOperation(value = "删除存储源", notes = "删除存储源基本设置和拓展设置")
     @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class)
     @DeleteMapping("/storage/{storageId}")
@@ -90,7 +83,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 5)
     @ApiOperation(value = "启用存储源", notes = "开启存储源后可在前台显示")
     @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class)
     @PostMapping("/storage/{storageId}/enable")
@@ -102,7 +94,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 6)
     @ApiOperation(value = "停止存储源", notes = "停用存储源后不在前台显示")
     @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class)
     @PostMapping("/storage/{storageId}/disable")
@@ -114,7 +105,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 7)
     @ApiOperation(value = "更新存储源顺序")
     @PostMapping("/storage/sort")
     public AjaxJson<Void> updateStorageSort(@RequestBody List<UpdateStorageSortRequest> updateStorageSortRequestList) {
@@ -123,7 +113,6 @@ public class StorageSourceController {
     }
 
 
-    @ApiOperationSupport(order = 8)
     @ApiOperation(value = "校验存储源 key 是否重复")
     @ApiImplicitParam(paramType = "query", name = "storageKey", value = "存储源 key", required = true, dataTypeClass = String.class)
     @GetMapping("/storage/exist/key")
@@ -132,8 +121,7 @@ public class StorageSourceController {
         return AjaxJson.getSuccessData(exist);
     }
     
-    
-    @ApiOperationSupport(order = 9)
+
     @ApiOperation(value = "修改 readme 兼容模式", notes = "修改 readme 兼容模式是否启用")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "path", name = "storageId", value = "存储源 id", required = true, dataTypeClass = Integer.class),
